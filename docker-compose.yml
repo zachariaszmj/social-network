@@ -1,0 +1,18 @@
+version: "2"
+services:
+  mysql:
+    container_name: social-network-mysql
+    image: mysql:5.7
+    command: ['--character-set-server=utf8', '--collation-server=utf8_unicode_ci']
+    ports:
+      - 13307:3306
+    volumes:
+      - social_network_mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: social_network_root
+      MYSQL_DATABASE: social_network
+      MYSQL_USER: social_network_user
+      MYSQL_PASSWORD: social_network_pass
+volumes:
+  social_network_mysql:

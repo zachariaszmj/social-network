@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:13307/social_network
+    username: social_network_user
+    password: social_network_pass
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        generate_statistics: false

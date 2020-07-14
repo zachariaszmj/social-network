@@ -1,0 +1,18 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: ${TSM_MYSQL_URL}
+    username: ${TSM_MYSQL_USER}
+    password: ${TSM_MYSQL_PASSWORD}
+    hikari:
+      connection-timeout: 10000
+      maximum-pool-size: 30
+  jpa:
+    generate-ddl: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+social-network:
+  auth:
+    secret: secret
