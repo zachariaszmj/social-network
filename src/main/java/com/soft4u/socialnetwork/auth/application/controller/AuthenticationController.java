@@ -1,8 +1,10 @@
 package com.soft4u.socialnetwork.auth.application.controller;
 
+import com.soft4u.socialnetwork.auth.application.dto.AuthRequestDto;
 import com.soft4u.socialnetwork.auth.application.dto.BearerTokenDto;
 import com.soft4u.socialnetwork.auth.application.dto.UserSignUpDto;
 import com.soft4u.socialnetwork.auth.domain.model.AuthRequest;
+import com.soft4u.socialnetwork.auth.domain.model.BearerToken;
 import com.soft4u.socialnetwork.auth.domain.model.UserSingUp;
 import com.soft4u.socialnetwork.auth.domain.service.CustomUserDetailsService;
 import com.soft4u.socialnetwork.auth.domain.util.JwtUtil;
@@ -42,12 +44,14 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     @SneakyThrows
-    public BearerTokenDto generateToken(@RequestBody AuthRequest authRequest) {
+    public BearerTokenDto generateToken(@RequestBody AuthRequestDto authRequest) {
+        AuthRequest auth = modelMapper.map(authRequest, AuthRequest.class);
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword())
             );
-            return modelMapper.map(jwtUtil.generateToken(authRequest.getUserName()), BearerTokenDto.class);
+            BearerToken source = jwtUtil.generateToken(auth.getUsername());
+            return modelMapper.map(source, BearerTokenDto.class);
         } catch (Exception e) {
             throw new Exception("Invalidate credentials");
         }
